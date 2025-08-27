@@ -1,0 +1,44 @@
+{% extends 'common/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">메모 CRUD 설명</h2>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card text-white">
+                <div class="card-header" style="background-color: #ff7e5f;">생성 (Create)</div>
+                <div class="card-body" style="color: rgb(31, 31, 31);">
+                    <h5 class="card-title">새로운 메모 추가</h5>
+                    <p class="card-text">제목과 내용을 입력하여 새로운 메모를 생성할 수 있습니다.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card text-white">
+                <div class="card-header" style="background-color: #feb47b;" >읽기 (Read)</div>
+                <div class="card-body" style="color: rgb(31, 31, 31);">
+                    <h5 class="card-title">메모 목록 보기</h5>
+                    <p class="card-text">저장된 메모를 목록 형태로 볼 수 있으며, 각 메모의 제목, 생성 날짜, 내용이 표시됩니다.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card text-white">
+                <div class="card-header" style="background-color: #38d4cc;">업데이트 (Update)</div>
+                <div class="card-body" style="color: rgb(31, 31, 31);">
+                    <h5 class="card-title">기존 메모 수정</h5>
+                    <p class="card-text">수정 버튼을 클릭하여 기존 메모의 내용을 업데이트할 수 있습니다.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card text-white">
+                <div class="card-header" style="background-color: #85e5b0;">삭제 (Delete)</div>
+                <div class="card-body" style="color: rgb(31, 31, 31);">
+                    <h5 class="card-title">메모 삭제</h5>
+                    <p class="card-text">삭제 버튼을 클릭하여 더 이상 필요하지 않은 메모를 제거할 수 있습니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
