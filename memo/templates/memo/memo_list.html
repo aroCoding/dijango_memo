@@ -7,7 +7,7 @@
             <h5 class="card-title">{{ memo.title }}</h5>
             <small class="card-subtitle mb-2 text-muted">{{ memo.created_at | date:'Y.m.d H:i' }}</small>
             <p class="card-text pt-2">{{ memo.content }}</p>
-            <a href="#" class="card-link" style="color: #ff7e5f;" onmouseover="this.style.color='#feb47b'" onmouseout="this.style.color='#ff7e5f'">자세히 보기</a>
+            <a href="{% url 'memo:memo_detail' memo.pk %}" class="card-link" style="color: #ff7e5f;" onmouseover="this.style.color='#feb47b'" onmouseout="this.style.color='#ff7e5f'">자세히 보기</a>
         </div>
     </div>
     {% empty %}

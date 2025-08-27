@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Memo
 from .form import MemoForm
 # Create your views here.
@@ -27,4 +27,8 @@ def memo_create_row(request):
         form = MemoForm()
 
     # GET 요청이거나 폼이 유효하지 않을 때
-    return render(request=request, template_name='memo/memo_create.html', context={ 'form': form })
+    return render(request=request, template_name='memo/memo_form.html', context={ 'form': form })
+
+def memo_detail(request, pk):
+    memo = get_object_or_404(Memo, pk=pk)
+    return render(request=request, template_name='memo/memo_detail.html', context={ 'memo': memo })
