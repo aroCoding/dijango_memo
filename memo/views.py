@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Memo
 from .form import MemoForm
+from django.contrib import messages
 # Create your views here.
 def home(request):
     return render(request=request, template_name='memo/home.html')
@@ -49,3 +50,14 @@ def memo_update(request, pk):
         form = MemoForm(instance=memo)
 
     return render(request=request, template_name='memo/memo_form.html', context={ 'form': form, 'title': '메모 수정' })
+
+def memo_delete(request, pk):
+    memo = get_object_or_404(Memo, pk=pk)
+    
+    if request.method == 'POST':
+        memo.delete()
+        return redirect('memo:memo_list')
+        
+    else:
+        messages.error(request, '메모 삭제에 실패했습니다.')
+        return redirect('memo:memo_detail', pk=pk)
