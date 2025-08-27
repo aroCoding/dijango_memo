@@ -32,3 +32,20 @@ def memo_create_row(request):
 def memo_detail(request, pk):
     memo = get_object_or_404(Memo, pk=pk)
     return render(request=request, template_name='memo/memo_detail.html', context={ 'memo': memo })
+
+
+def memo_update(request, pk):
+
+    memo = get_object_or_404(Memo, pk=pk)
+
+    if request.method == 'POST':
+        form = MemoForm(request.POST, instance=memo)
+        
+        if form.is_valid():
+            form.save()
+            return redirect('memo:memo_detail', pk=pk)
+
+    else:
+        form = MemoForm(instance=memo)
+
+    return render(request=request, template_name='memo/memo_form.html', context={ 'form': form, 'title': '메모 수정' })
