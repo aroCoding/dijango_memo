@@ -4,10 +4,24 @@ from .form import MemoForm
 from django.contrib import messages
 # Create your views here.
 def home(request):
-    return render(request=request, template_name='memo/home.html')
+    return render(request, template_name='memo/home.html')
 
 def memo_list(request):
-    return render(request=request, template_name='memo/memo_list.html', context={ 'memos': Memo.objects.all() })
+    """
+    메모 목록 조회
+    누구나 조회 가능
+    """
+    return render(request, template_name='memo/memo_list.html', context={ 'memos': Memo.objects.all() })
+
+def memo_list_for_author(request):
+    """
+    작성자 본인 메모 목록 조회
+    작성자 본인만 조회 가능
+    """
+    memos = Memo.objects.filter(author=request.user)
+
+    return render(request, template_name='memo/memo_list.html', context={ 'memos': memos })
+
 
 def memo_create_row(request):
 
@@ -15,14 +29,17 @@ def memo_create_row(request):
         form = MemoForm(request.POST)
 
         if form.is_valid():
+            author = request.user
             title = form.cleaned_data['title']
             content = form.cleaned_data['content']
             is_important = form.cleaned_data['is_important']
 
             # DB에 저장
-            Memo.objects.create(title=title, content=content, is_important=is_important)
+            Memo.objects.create(author=author, title=title, content=content, is_important=is_important)
             return redirect('memo:memo_list')
-
+        else:
+            messages.error(request, '메모 작성에 실패했습니다.')
+            print(form.errors)
     # GET 요청 시 빈 폼 생성
     else:
         form = MemoForm()
