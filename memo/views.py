@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Memo
 from .form import MemoForm
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 # Create your views here.
 def home(request):
     return render(request, template_name='memo/home.html')
@@ -56,6 +57,11 @@ def memo_update(request, pk):
 
     memo = get_object_or_404(Memo, pk=pk)
 
+    # 작성자 확인
+    if memo.author != request.user:
+        messages.error(request, '작성자가 아닙니다.')
+        return redirect('memo:memo_detail', pk=pk)
+
     if request.method == 'POST':
         form = MemoForm(request.POST, instance=memo)
         
@@ -66,11 +72,18 @@ def memo_update(request, pk):
     else:
         form = MemoForm(instance=memo)
 
-    return render(request=request, template_name='memo/memo_form.html', context={ 'form': form, 'title': '메모 수정' })
+    return render(request, 
+        template_name='memo/memo_form.html', 
+        context={ 'form': form, 'is_update': True 
+    })
 
 def memo_delete(request, pk):
     memo = get_object_or_404(Memo, pk=pk)
     
+    # 작성자 확인
+    if memo.author != request.user:
+        raise PermissionDenied('삭제 권한이 없습니다')
+
     if request.method == 'POST':
         memo.delete()
         return redirect('memo:memo_list')
